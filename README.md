@@ -1,19 +1,33 @@
-# Desafio 1
+Desafio 01. Conceitos do NodeJS
+Crie uma aplicação do zero utilizando Express.
 
-Nesse desafio vamos contruir uma aplicação que aceita a entrada de um campo do usuário por um formulário e o redireciona para a página correta baseado em sua idade.
+Essa aplicação será utilizada para armazenar projetos e suas tarefas.
 
-Configure uma aplicação utilizando **ExpressJS, Nunjucks, EditorConfig e ESLint**.
+Rotas
+POST /projects: A rota deve receber id e title dentro corpo de cadastrar um novo projeto dentro de um array no seguinte formato: { id: "1", title: 'Novo projeto', tasks: [] }; Certifique-se de enviar tanto o ID quanto o título do projeto no formato string com àspas duplas.
 
-## Rotas
+GET /projects: Rota que lista todos projetos e suas tarefas;
 
-- `/`: Rota inicial que renderiza uma página com um formulário com um único campo `age` que representa a idade do usuário;
-- `/check`: Rota chamada pelo formulário da página inicial via método POST que checa se a idade do usuário é maior que 18 e o redireciona para a rota `/major`, caso contrário o redireciona para a rota `/minor` (Lembre de enviar a idade como Query Param no redirecionamento);
-- `/major`: Rota que renderiza uma página com o texto: `Você é maior de idade e possui x anos`, onde `x` deve ser o valor informado no input do formulário;
-- `/minor`: Rota que renderiza uma página com o texto: `Você é menor de idade e possui x anos`, onde `x` deve ser o valor informado no input do formulário;
+PUT /projects/:id: A rota deve alterar apenas o título do projeto com o id presente nos parâmetros da rota;
 
-## Middlewares
+DELETE /projects/:id: A rota deve deletar o projeto com o id presente nos parâmetros da rota;
 
-Deve haver um middleware que é chamado nas rotas `/major` e `/minor` e checa se a informação de idade não está presente nos Query Params. Se essa informação não existir deve redirecionar o usuário para a página inicial com o formulário, caso contrário o middleware deve apenas continuar com o fluxo normal.
+POST /projects/:id/tasks: A rota deve receber um campo title e armazenar uma nova tarefa no array de tarefas de um projeto específico escolhido através do id presente nos parâmetros da rota;
+
+Exemplo
+Se eu chamar a rota POST /projects repassando { id: 1, title: 'Novo projeto' } e a rota POST /projects/1/tasks com { title: 'Nova tarefa' }, meu array de projetos deve ficar assim:
+
+[
+  {
+    id: "1",
+    title: 'Novo projeto',
+    tasks: ['Nova tarefa']
+  }
+]
+Middlewares
+Crie um middleware que será utilizado em todas rotas que recebem o ID do projeto nos parâmetros da URL que verifica se o projeto com aquele ID existe. Se não existir retorne um erro, caso contrário permita a requisição continuar normalmente;
+
+Crie um middleware global chamado em todas requisições que imprime (console.log) uma contagem de quantas requisições foram feitas na aplicação até então;
 
 ## Preparando o ambiente
 
